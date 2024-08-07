@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -39,6 +40,8 @@ public class Robot extends TimedRobot {
 
   private CANVenom elevatorMotor = new CANVenom(7);
   private boolean elevatorMotorMovementCommanded = false;
+
+  private Spark intakeMotor = new Spark(6);
 
   private DifferentialDrive m_robotDrive;
   private Joystick joystick;
@@ -141,44 +144,50 @@ public class Robot extends TimedRobot {
 
     // elevator controls
     int POV = joystick.getPOV();
-    switch(POV) {
+    switch (POV) {
       case -1:
-      // not pressed
-      elevatorMotor.set(0);
-      elevatorMotorMovementCommanded = false;
-      break;
+        // not pressed
+        elevatorMotor.set(0);
+        elevatorMotorMovementCommanded = false;
+        break;
       case 0:
       case 45:
       case 315:
-      // up
-      if (elevatorMotorMovementCommanded) {
-        if ((elevatorMotor.getSpeed() == 0) && (elevatorMotor.getOutputCurrent() > 0)) {
-          elevatorMotor.set(0);
-          break;
+        // up
+        if (elevatorMotorMovementCommanded) {
+          if ((elevatorMotor.getSpeed() == 0) && (elevatorMotor.getOutputCurrent() > 0)) {
+            elevatorMotor.set(0);
+            break;
+          }
         }
-      }
-      elevatorMotor.set(0.5);
-      elevatorMotorMovementCommanded = true;
-      break;
+        elevatorMotor.set(0.5);
+        elevatorMotorMovementCommanded = true;
+        break;
       case 180:
       case 225:
       case 135:
-      //down
-      if (elevatorMotorMovementCommanded) {
-        if ((elevatorMotor.getSpeed() == 0) && (elevatorMotor.getOutputCurrent() > 0)) {
-          elevatorMotor.set(0);
-          break;
+        // down
+        if (elevatorMotorMovementCommanded) {
+          if ((elevatorMotor.getSpeed() == 0) && (elevatorMotor.getOutputCurrent() > 0)) {
+            elevatorMotor.set(0);
+            break;
+          }
         }
-      }
-      elevatorMotor.set(-0.5);
-      elevatorMotorMovementCommanded = true;
-      break;
+        elevatorMotor.set(-0.5);
+        elevatorMotorMovementCommanded = true;
+        break;
     }
 
     // intake controls
+    double trigger = joystick.getRawAxis(3);
+    if (trigger > 0.3) {
+      intakeMotor.set(trigger);
+    } else {
+      intakeMotor.set(0);
+    }
 
   }
-  
+
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
