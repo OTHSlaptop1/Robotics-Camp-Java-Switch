@@ -141,7 +141,10 @@ public class Robot extends TimedRobot {
     } else {
       m_robotDrive.arcadeDrive(joystick.getRawAxis(0) * 0.65, -joystick.getRawAxis(1) * 0.65, true);
     }
-
+    System.out.println("Motor Speed:");
+    System.out.println(elevatorMotor.getSpeed());
+    System.out.println("Motor Current:");
+    System.out.println(elevatorMotor.getOutputCurrent());
     // elevator controls
     int POV = joystick.getPOV();
     switch (POV) {
@@ -155,12 +158,12 @@ public class Robot extends TimedRobot {
       case 315:
         // up
         if (elevatorMotorMovementCommanded) {
-          if ((elevatorMotor.getSpeed() == 0) && (elevatorMotor.getOutputCurrent() > 0)) {
+          if ((Math.round(elevatorMotor.getSpeed()) == 0) && (elevatorMotor.getOutputCurrent() > 0)) {
             elevatorMotor.set(0);
             break;
           }
         }
-        elevatorMotor.set(0.5);
+        elevatorMotor.set(-0.5);
         elevatorMotorMovementCommanded = true;
         break;
       case 180:
@@ -168,12 +171,12 @@ public class Robot extends TimedRobot {
       case 135:
         // down
         if (elevatorMotorMovementCommanded) {
-          if ((elevatorMotor.getSpeed() == 0) && (elevatorMotor.getOutputCurrent() > 0)) {
+          if ((Math.round(elevatorMotor.getSpeed()) == 0) && (elevatorMotor.getOutputCurrent() > 0)) {
             elevatorMotor.set(0);
             break;
           }
         }
-        elevatorMotor.set(-0.5);
+        elevatorMotor.set(0.5);
         elevatorMotorMovementCommanded = true;
         break;
     }
