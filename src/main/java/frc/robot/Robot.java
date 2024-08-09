@@ -45,6 +45,7 @@ public class Robot extends TimedRobot {
 
   private DifferentialDrive m_robotDrive;
   private Joystick joystick;
+  private Joystick joystick2;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -146,7 +147,7 @@ public class Robot extends TimedRobot {
     System.out.println("Motor Current:");
     System.out.println(elevatorMotor.getOutputCurrent());
     // elevator controls
-    int POV = joystick.getPOV();
+    int POV = joystick2.getPOV();
     switch (POV) {
       case -1:
         // not pressed
