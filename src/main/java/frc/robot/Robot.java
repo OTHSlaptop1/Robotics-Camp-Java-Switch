@@ -67,6 +67,7 @@ public class Robot extends TimedRobot {
     m_robotDrive = new DifferentialDrive(front_left_motor, front_right_motor);
 
     joystick = new Joystick(0);
+    joystick2 = new Joystick(1);
 
   }
 
